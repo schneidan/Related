@@ -297,12 +297,14 @@ if (!class_exists('Related')) :
 										$list .= '<li>';
 										//$list .= '<a href="' . get_permalink($r->ID) . '">' . get_the_title($r->ID) . '</a>';
 											$large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $r->ID ), 'medium');
-											$list .= '<div class="related-image" style="background-image:url(\'' . $large_image_url[0] . '\');">';
-												$list .= '<div class="related-thumbnail">';
-												$list .= '</div>';			
-												$list .= '<h3 class="entry-title"><a href="' . get_permalink($r->ID) . '" title="' . esc_attr( get_the_title( $r->ID ) ) . '" rel="bookmark">' . get_the_title( $r->ID ) . '</a></h3>';
-												$list .= '</a>';
-											$list .= '</div>';
+											$list .= '<a href="' . get_permalink($r->ID) . '" title="' . esc_attr( get_the_title( $r->ID ) ) . '" rel="bookmark">';
+												$list .= '<div class="related-image" style="background-image:url(\'' . $large_image_url[0] . '\');">';
+													$list .= '<div class="related-thumbnail">';
+													$list .= '</div>';			
+													$list .= '<h5 class="entry-title"><a href="' . get_permalink($r->ID) . '" title="' . esc_attr( get_the_title( $r->ID ) ) . '" rel="bookmark">' . get_the_title( $r->ID ) . '</a></h5>';
+													$list .= '</a>';
+												$list .= '</div>';
+											$list .= '</a>';
 										$list .= '</li>';
 									}
 								}
