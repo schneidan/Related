@@ -70,18 +70,3 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 });
-
-
-/*
- * Use Chosen.js to limit the number of shown options in the select-box
- *
- */
-
-jQuery(document).ready(function($) {
-	$('select.related-posts-select').chosen({
-		no_results_text: "Nothing found...",
-		allow_single_deselect: true,
-		width: "100%"
-	});
-});
-

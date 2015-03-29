@@ -106,7 +106,6 @@ if (!class_exists('Related')) :
 			wp_enqueue_script('jquery-ui-core');
 			wp_enqueue_script('jquery-ui-sortable');
 			wp_enqueue_script('related-scripts', RELATED_URLPATH .'/scripts.js', false, RELATED_VERSION, true);
-			wp_enqueue_script('related-chosen', RELATED_URLPATH .'/chosen/chosen.jquery.min.js', false, RELATED_VERSION, true);
 		}
 
 
@@ -116,7 +115,6 @@ if (!class_exists('Related')) :
 		 */
 		public function loadCSS() {
 			wp_enqueue_style('related-css', RELATED_URLPATH .'/styles.css', false, RELATED_VERSION, 'all');
-			wp_enqueue_style('related-css-chosen', RELATED_URLPATH .'/chosen/chosen.min.css', false, RELATED_VERSION, 'all');
 		}
 
 
@@ -177,7 +175,7 @@ if (!class_exists('Related')) :
 			echo '
 				</div>
 				<p>
-					<select class="related-posts-select chosen-select" name="related-posts-select" data-placeholder="' . __('Choose a related post... ', 'related' ) . '">';
+					<select class="related-posts-select" name="related-posts-select" data-placeholder="' . __('Choose a related post... ', 'related' ) . '">';
 
 			echo '<option value="0"></option>';
 
@@ -204,7 +202,7 @@ if (!class_exists('Related')) :
 					'post__not_in' => array($post_id),
 					'post_status' => 'publish, inherit',
 					'posts_per_page' => -1,
-					'post_type' => 'any',
+					'post_type' => array( 'post', 'page' ),
 					'orderby' => 'title',
 					'order' => 'ASC'
 				);
@@ -292,11 +290,20 @@ if (!class_exists('Related')) :
 					// Otherwise return a formatted list
 					else :
 						if ( is_array( $rel ) && count( $rel ) > 0 ) {
-							$list = '<ul class="related-posts">';
+							$list = '<ul class="related-posts large-block-grid-3 medium-block-grid-3 small-block-grid-1">';
 							foreach ($rel as $r) :
 								if ( is_object( $r ) ) {
-									if ($r->post_status != 'trash') {
-										$list .= '<li><a href="' . get_permalink($r->ID) . '">' . get_the_title($r->ID) . '</a></li>';
+									if ( $r->post_status != 'trash' ) {
+										$list .= '<li>';
+										//$list .= '<a href="' . get_permalink($r->ID) . '">' . get_the_title($r->ID) . '</a>';
+											$large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $r->ID ), 'medium');
+											$list .= '<div class="related-image" style="background-image:url(\'' . $large_image_url[0] . '\');">';
+												$list .= '<div class="related-thumbnail">';
+												$list .= '</div>';			
+												$list .= '<h3 class="entry-title"><a href="' . get_permalink($r->ID) . '" title="' . esc_attr( get_the_title( $r->ID ) ) . '" rel="bookmark">' . get_the_title( $r->ID ) . '</a></h3>';
+												$list .= '</a>';
+											$list .= '</div>';
+										$list .= '</li>';
 									}
 								}
 							endforeach;
